@@ -1,0 +1,71 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="430" viewBox="0 0 1200 430" font-family="Helvetica, Arial, sans-serif">
+  <defs>
+    <marker id="a" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10z" fill="#1d1c19"/></marker>
+    <marker id="ao" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto"><path d="M0 0L10 5L0 10z" fill="#eb6834"/></marker>
+  </defs>
+  <rect width="1200" height="430" fill="#ffffff"/>
+  <!-- federation panel -->
+  <rect x="20" y="20" width="815" height="390" rx="10" fill="#f6f8fb" stroke="#d5dbe4"/>
+  <text x="40" y="50" font-size="17" font-weight="bold" fill="#1d1c19">Federation of world models</text>
+  <text x="40" y="70" font-size="12" fill="#5a5f66">three bounded members, one coupler with a typed contract, one planner</text>
+  <!-- members -->
+  <g font-size="13">
+    <rect x="40" y="100" width="270" height="60" rx="6" fill="#ffffff" stroke="#2a78d6" stroke-width="2"/>
+    <text x="52" y="124" font-weight="bold" fill="#2a78d6">ego member · analytic</text>
+    <text x="52" y="146" fill="#1d1c19">kinematic bicycle model, 0 parameters</text>
+    <rect x="40" y="185" width="270" height="60" rx="6" fill="#ffffff" stroke="#1baf7a" stroke-width="2"/>
+    <text x="52" y="209" font-weight="bold" fill="#1baf7a">traffic member · learned</text>
+    <text x="52" y="231" fill="#1d1c19">MLP 53-128-128-35, 27 939 parameters</text>
+    <rect x="40" y="310" width="270" height="60" rx="6" fill="#ffffff" stroke="#b8860b" stroke-width="2"/>
+    <text x="52" y="334" font-weight="bold" fill="#b8860b">safety member · analytic</text>
+    <text x="52" y="356" fill="#1d1c19">minimum following distance, 0 parameters</text>
+  </g>
+  <!-- coupler -->
+  <rect x="350" y="120" width="250" height="110" rx="6" fill="#ffffff" stroke="#1d1c19" stroke-width="1.6"/>
+  <text x="362" y="144" font-size="13" font-weight="bold" fill="#1d1c19">coupler</text>
+  <text x="362" y="165" font-size="12" fill="#1d1c19">contract check on the traffic message</text>
+  <text x="362" y="182" font-size="10.5" fill="#5a5f66" font-family="Menlo, Consolas, monospace">{timestamp, frame, horizon, validity}</text>
+  <text x="362" y="203" font-size="12" fill="#1d1c19">ego frame → world frame, joint state</text>
+  <text x="362" y="221" font-size="12" fill="#1d1c19">stale message → refused → abstain</text>
+  <!-- joint future / margin / planner -->
+  <rect x="625" y="120" width="200" height="60" rx="6" fill="#ffffff" stroke="#1d1c19" stroke-width="1.6"/>
+  <text x="637" y="144" font-size="13" font-weight="bold" fill="#1d1c19">joint predicted future</text>
+  <text x="637" y="166" font-size="12" fill="#1d1c19">3 decisions, 9 candidate chunks</text>
+  <rect x="625" y="215" width="200" height="60" rx="6" fill="#ffffff" stroke="#b8860b" stroke-width="1.6"/>
+  <text x="637" y="239" font-size="13" font-weight="bold" fill="#b8860b">margin on the joint future</text>
+  <text x="637" y="261" font-size="12" fill="#1d1c19">chunks inside d_min are ruled out</text>
+  <rect x="625" y="310" width="200" height="60" rx="6" fill="#1d1c19" stroke="#1d1c19"/>
+  <text x="637" y="334" font-size="13" font-weight="bold" fill="#ffffff">planner</text>
+  <text x="637" y="356" font-size="12" fill="#ffffff">best chunk by predicted reward</text>
+  <!-- arrows -->
+  <g stroke="#1d1c19" stroke-width="1.6" fill="none" marker-end="url(#a)">
+    <path d="M310 130 L350 150"/>
+    <path d="M310 215 L350 190"/>
+    <path d="M600 150 L625 150"/>
+    <path d="M725 180 L725 215"/>
+    <path d="M725 275 L725 310"/>
+    <path d="M310 340 L625 245"/>
+  </g>
+  <text x="322" y="106" font-size="10.5" fill="#5a5f66">x, v, heading</text>
+  <text x="322" y="244" font-size="10.5" fill="#5a5f66">neighbour deltas</text>
+  <text x="372" y="332" font-size="10.5" fill="#5a5f66">a_accel, a_brake from the vehicle's limits</text>
+  <!-- monolith panel -->
+  <rect x="850" y="20" width="330" height="390" rx="10" fill="#fff7f3" stroke="#f0d6c8"/>
+  <text x="870" y="50" font-size="17" font-weight="bold" fill="#1d1c19">Monolith (comparator)</text>
+  <text x="870" y="70" font-size="12" fill="#5a5f66">one learned model, equal learned parameters</text>
+  <rect x="870" y="100" width="290" height="80" rx="6" fill="#ffffff" stroke="#eb6834" stroke-width="2"/>
+  <text x="882" y="124" font-size="13" font-weight="bold" fill="#eb6834">ego + traffic in one network</text>
+  <text x="882" y="146" font-size="12" fill="#1d1c19">MLP 60-124-124-40, 28 064 parameters</text>
+  <text x="882" y="166" font-size="12" fill="#1d1c19">same data, same optimizer, same planner</text>
+  <rect x="870" y="215" width="290" height="60" rx="6" fill="#ffffff" stroke="#b8860b" stroke-width="1.6" stroke-dasharray="5 4"/>
+  <text x="882" y="239" font-size="13" font-weight="bold" fill="#b8860b">optional: the same safety rule</text>
+  <text x="882" y="261" font-size="12" fill="#1d1c19">on its own predictions (monolith_safe)</text>
+  <rect x="870" y="310" width="290" height="60" rx="6" fill="#1d1c19"/>
+  <text x="882" y="334" font-size="13" font-weight="bold" fill="#ffffff">planner</text>
+  <text x="882" y="356" font-size="12" fill="#ffffff">identical</text>
+  <g stroke="#eb6834" stroke-width="1.6" fill="none" marker-end="url(#ao)">
+    <path d="M1015 180 L1015 215"/>
+    <path d="M1015 275 L1015 310"/>
+  </g>
+  <text x="870" y="390" font-size="11" fill="#5a5f66">also: a width-matched monolith (29 480) and a</text><text x="870" y="405" font-size="11" fill="#5a5f66">federation with a learned ego member (46 632)</text>
+</svg>

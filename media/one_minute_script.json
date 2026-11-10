@@ -1,0 +1,15 @@
+{"scenes":[
+ {"id":"hook","narration":"Should a robot keep one model of the world, or several?","cues":{}},
+ {"id":"concept","narration":"We propose a federation of world models: members that each predict a bounded part of the world, couplers that relate them, contracts that check every message, and one shared planner.",
+  "cues":{"member":"members that","coupler":"couplers that","contract":"contracts that","joint":"and one shared"}},
+ {"id":"robot","narration":"On a robot reaching for a glass, the arm is an analytical member, the gripper a learned one; a coupler at the wrist selects the regime, and the glass pose travels as a hypothesis under contract.",
+  "cues":{"arm":"the arm is","gripper":"the gripper a","wrist":"a coupler at","msg":"and the glass pose"}},
+ {"id":"driving","narration":"In highway driving, the federation succeeded on sixty-two percent of withheld episodes, the monolith on fifty-seven.",
+  "cues":{"n62":"sixty-two","n57":"fifty-seven","loaded":"In highway"}},
+ {"id":"transport","narration":"In transport, ninety-nine percent on a pairing never seen, against forty for the monolith.",
+  "cues":{"pairing":"on a pairing","n99":"ninety-nine","n40":"against forty"}},
+ {"id":"tool","narration":"In tool use, no difference at all: a boundary that buys nothing is a result too.",
+  "cues":{"differ":"no difference","result":"a boundary that"}},
+ {"id":"closing","narration":"Boundaries pay when the robot acts where it has no data, and when a part must change without breaking the rest. Whether composition earns its cost is now a testable question, and we give the test.",
+  "cues":{"l1":"Boundaries pay","l2":"and when a part","point":"Whether composition","test":"and we give"}}
+]}

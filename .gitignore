@@ -1,0 +1,10 @@
+data/
+models/
+results/
+logs/
+smoke_*/
+__pycache__/
+*.pyc
+*.npz
+*.pt
+results_cpu/

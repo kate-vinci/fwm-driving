@@ -1,0 +1,29 @@
+{
+ "params": {
+  "federation": 27939,
+  "federation_agents_member": 27939,
+  "federation_ego_member": 0,
+  "federation3": 27939,
+  "federation3_safety_member": 0,
+  "fed_learned_ego": 46632,
+  "monolith": 28064,
+  "monolith_hidden": 124,
+  "monolith_width": 29480,
+  "monolith_width_hidden": 128,
+  "monolith_safe": 28064,
+  "conventional": 0,
+  "federation_cv": 0,
+  "monolith_aego": 28064
+ },
+ "ego_params": "EgoParams(kp_a=1.667, acc_max=inf, acc_brake_max=inf)",
+ "safety_params": "SafetyParams(rho=0.5, a_accel=8.333, a_brake_min=8.333, a_brake_front=6.0)",
+ "ego_rmse_nominal_member_on_nominal": {
+  "x": 3.382478380146415e-15,
+  "y": 9.452252387101235e-17,
+  "vx": 7.373961259067589e-16,
+  "vy": 2.547338475752441e-16,
+  "heading": 9.812256610569031e-18,
+  "n": 10167
+ },
+ "wall_clock_s": 4.396405935287476
+}

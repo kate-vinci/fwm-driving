@@ -1,0 +1,21 @@
+{
+ "params": {
+  "federation": 27939,
+  "federation_agents_member": 27939,
+  "federation_ego_member": 0,
+  "federation3": 27939,
+  "federation3_safety_member": 0,
+  "fed_learned_ego": 46632,
+  "monolith": 28064,
+  "monolith_hidden": 124,
+  "monolith_width": 29480,
+  "monolith_width_hidden": 128,
+  "monolith_safe": 28064,
+  "conventional": 0,
+  "federation_cv": 0,
+  "monolith_aego": 28064
+ },
+ "ego_params": "EgoParams(kp_a=0.833, acc_max=1.5, acc_brake_max=4.0)",
+ "safety_params": "SafetyParams(rho=0.5, a_accel=1.500, a_brake_min=4.000, a_brake_front=6.0)",
+ "wall_clock_s": 2.3671741485595703
+}
