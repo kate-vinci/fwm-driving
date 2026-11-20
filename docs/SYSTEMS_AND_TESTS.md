@@ -1,27 +1,25 @@
-# Complements to the study (revision 2): what changed and what the GPU port needs
+# Systems, tests and records
 
-This note lists every change to the CPU reference since commit b4db655 so that a batched port can be brought to the
-same behaviour and checked against it. The task list is `slurm/jobs.sh` (745 tasks; `FWM_CORE=1` gives the original
-520). Stage 1 (`prepare.py`) was rerun on CPU with the new data rule; its outputs (`data/`, `models/`,
-`results/prepare_<seed>.json`) ship with this note, so nothing needs retraining. CPU reference records for every new
-system and test are in `results_ref/` (seed 0, two episodes per task, oracle scoring on): the same Level-2
-criterion as before applies (identical `chosen`, `abstained`, `safety_violation`, `success` per decision, scores to
-1e-9).
+Specification of the data rule, the message contract, the comparator systems, the interface-fault test, the horizon
+sweep and the episode records, as implemented in `fwm/`. The task list is `pipelines/slurm/jobs.sh` (745 tasks;
+`FWM_CORE=1` restricts it to the 520 tasks of T1–T5 with the eight original systems). Reference records for every
+system and test are in `results_ref/` (seed 0, two episodes per task, oracle scoring on); a reimplementation is
+considered equivalent when it reproduces `chosen`, `abstained`, `safety_violation` and `success` per decision and the
+chunk scores to 1e-9.
 
 ## 1. Data rule (`train.py`, `collect.py`)
 
-`load_data()` now requires `MIN_TRANSITIONS = 10,500` usable (non-crash) transitions for the two budget conditions
+`load_data()` requires `MIN_TRANSITIONS = 10,500` usable (non-crash) transitions for the two budget conditions
 `ego_shift` and `traffic_shift`; `collect()` keeps logging episodes after the 300th until that holds. Nominal and
-combined logs are unchanged (300 episodes). Consequence: the budget 10,000 is a genuine subset in T2, T3 and T5, and
-the `_b<budget>` subsets of the seeded permutation change wherever the log grew (ego_shift seeds 2 and 4, traffic_shift
-and combined all seeds). The nominal models are bit-identical to revision 1 (same data, same seeds).
+combined logs are unchanged (300 episodes). Consequence: the budget 10,000 is a genuine subset of the logged data in T2, T3 and T5; the `_b<budget>` subsets
+are drawn from one seeded permutation of the whole log.
 
 ## 2. Message contract (`members.py`)
 
-`Message` has a new field `units` (`"SI"`), checked by `valid_at()` together with timestamp, frame, horizon and
-validity. `Federation.last_accepted` keeps the last message that passed the check.
+`Message` carries `timestamp`, `frame`, `horizon`, `validity`, `units` (`"SI"`) and `payload`; `valid_at()` checks
+the first five against the current decision. `Federation.last_accepted` keeps the last message that passed the check.
 
-## 3. New systems
+## 3. Comparator and attribution systems
 
 | name | class | what it is | parameters |
 |---|---|---|---|
@@ -45,7 +43,7 @@ Variants per system: `fault in {stale, frame, unit, missing}`; federations also 
 | missing | no message. Contract on: abstain (SLOWER). Contract off: silently reuse `last_accepted` (the message from decision 9 for the whole window) | neighbour rows of the last observation before the window reused |
 
 Contract on: a failed check counts one `contract_violation` and one abstention, the planner executes the SLOWER chunk.
-Contract off: the payload is used as if valid (same arithmetic as before); `violations` still counts the failed check.
+Contract off: the payload is used as if valid; `violations` still counts the failed check.
 Outside the window, every system is exactly its T1 self (T1 and T6 share the episode seeds).
 
 ## 5. Horizon sweep (`run.py --horizon`, `members.set_horizon`)
@@ -57,12 +55,11 @@ monolith, monolith_safe; the record carries `"horizon"`.
 
 ## 6. Records
 
-Two new keys in every episode record: `"fault"` (null outside T6) and `"horizon"`. `chosen` can be `null`
+Every episode record carries `"fault"` (null outside T6) and `"horizon"`. `chosen` can be `null`
 (conventional). `aggregate.py` groups by (system, budget, stale, contract, fault, horizon) and adds per-decision
-latency p50 / p95 and the fraction of decisions above 100 ms from `decisions.latency_ms` (CPU runs only; a batched
-run's latency column is not a per-decision latency, as noted in revision 1).
+latency p50 / p95 and the fraction of decisions above 100 ms from `decisions.latency_ms` (one task per core; the latency column of a batched run is not a per-decision latency).
 
-## 7. CPU-only analyses (no port needed)
+## 7. Complementary analyses
 
 - `error_budget.py --seed s`: reference-substitution error budget on 10 closed-loop episodes per seed (true ego /
   true traffic substituted into the coupler; needs deep copies of the environment).
@@ -72,6 +69,4 @@ run's latency column is not a per-decision latency, as noted in revision 1).
 
 ## 8. Task counts
 
-Per seed: T1 11 + horizon 10, T2 21, T3 27, T4 24, T5 32, T6 24 = 149; five seeds = 745 tasks, of which the 520
-original ones must be rerun because the shifted data changed (T2/T3/T5) or for completeness (T1/T4 are unchanged by
-the data rule and may be reused if the nominal models are confirmed identical).
+Per seed: T1 11 + horizon 10, T2 21, T3 27, T4 24, T5 32, T6 24 = 149; five seeds = 745 tasks, each independent.

@@ -168,7 +168,7 @@ fwm-driving/
 │   └── slurm/                  prepare.sbatch, evaluate.sbatch, submit.sh, jobs.sh (cluster-agnostic)
 ├── results_ref/                reference results of the study (tables, figures, summary) for T1–T6
 ├── media/                      the one-minute video, the poster, the figures of this README
-├── docs/docs/PORTING_NOTE.md        every behavioural change since the first study, for a batched port
+├── docs/SYSTEMS_AND_TESTS.md   specification of the systems, the six tests and the record format
 └── requirements.txt · CITATION.cff · LICENSE
 ```
 

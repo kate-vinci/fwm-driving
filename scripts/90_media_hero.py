@@ -1,6 +1,6 @@
 """Draw media/hero_federation.png: one real state of the simulation with the federation's predicted futures.
 
-python media/make_hero.py [--model-dir models]   (needs a trained nominal traffic member, e.g. after prepare.py)
+python scripts/90_media_hero.py [--model-dir models]   (needs a trained nominal traffic member, after scripts/01_prepare.py)
 """
 import os, sys, copy, argparse, numpy as np
 _ap = argparse.ArgumentParser(); _ap.add_argument("--model-dir", default="models"); MODEL_DIR = _ap.parse_args().model_dir
